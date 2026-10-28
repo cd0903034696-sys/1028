@@ -1,0 +1,6 @@
+{
+  "name": "簽帳單管理與帳務核對系統",
+  "description": "企業級月底會計簽帳單管理、繳交收件、缺單追蹤、帳務自動核對與月結報表系統",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
