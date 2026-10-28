@@ -16,7 +16,8 @@ import {
   Layers,
   ChevronRight,
   ShieldCheck,
-  RotateCcw
+  RotateCcw,
+  User
 } from 'lucide-react';
 
 import { ChargeSlip, AppUser, ErpBillingRecord, TrackingLog, ReceiptStatus, AuditStatus } from './types';
@@ -32,6 +33,7 @@ import { NewSlipModal } from './components/NewSlipModal';
 import { ImportSlipsModal } from './components/ImportSlipsModal';
 import { BarcodeScannerModal } from './components/BarcodeScannerModal';
 import { AcceptanceTestModal } from './components/AcceptanceTestModal';
+import { RoleWorkflowDiagram } from './components/RoleWorkflowDiagram';
 import { formatCurrency } from './utils/formatters';
 
 const STORAGE_KEY = 'charge_slips_mgmt_data_v1';
@@ -65,6 +67,7 @@ export default function App() {
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isBarcodeOpen, setIsBarcodeOpen] = useState(false);
   const [isAcceptanceTestOpen, setIsAcceptanceTestOpen] = useState(false);
+  const [showWorkflowDiagram, setShowWorkflowDiagram] = useState(true);
 
   // Notification Toast Banner
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'info' | 'warn' | 'error' } | null>(null);
@@ -589,6 +592,33 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-5">
+        {/* Role & Position Workflow Diagram with People Highlighted */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setShowWorkflowDiagram(!showWorkflowDiagram)}
+              className="inline-flex items-center gap-2 text-xs font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-200 px-3.5 py-1.5 rounded-xl shadow-xs transition-colors"
+            >
+              <User className="w-4 h-4 text-indigo-600" />
+              <span>簽帳單作業流程與責任人員「位置泳道圖」</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${showWorkflowDiagram ? 'bg-indigo-100 text-indigo-800' : 'bg-slate-100 text-slate-600'}`}>
+                {showWorkflowDiagram ? '收合流程圖 ▲' : '展開流程圖 ▼ (點擊檢視各角色人員位置)'}
+              </span>
+            </button>
+            <span className="text-xs text-slate-500 hidden sm:inline">
+              明確標註：外勤送貨員、現場人員、會計點收、業務協查、主管簽核之實體位置與單據流向
+            </span>
+          </div>
+
+          {showWorkflowDiagram && (
+            <RoleWorkflowDiagram
+              slips={slips}
+              currentUser={currentUser}
+              onNavigateTab={(tab) => setActiveTab(tab)}
+            />
+          )}
+        </div>
+
         {/* Navigation Tabs Bar */}
         <div className="flex border-b border-slate-200 bg-white px-3 sm:px-4 rounded-xl shadow-xs overflow-x-auto text-xs font-bold scrollbar-none">
           <button
