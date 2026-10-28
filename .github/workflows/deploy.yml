@@ -35,7 +35,7 @@ jobs:
           cache: 'npm'
 
       - name: 安裝專案依賴
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: 建置靜態網站 (Vite Build)
         run: npm run build
